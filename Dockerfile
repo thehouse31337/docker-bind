@@ -7,7 +7,7 @@ RUN apt-get update \
 
 FROM ubuntu:latest
 
-LABEL maintainer="sameer@damagehead.com"
+LABEL maintainer="thehouse31337@gmail.com"
 
 ENV BIND_USER=bind \
     BIND_VERSION=9.16.1 \
