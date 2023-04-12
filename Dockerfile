@@ -1,4 +1,4 @@
-FROM ubuntu:focal-20200423 AS add-apt-repositories
+FROM ubuntu:latest AS add-apt-repositories
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y gnupg \
@@ -21,8 +21,9 @@ COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list
 RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-      bind9=1:${BIND_VERSION}* bind9-host=1:${BIND_VERSION}* dnsutils \
-      webmin=${WEBMIN_VERSION}* \
+       bind9 bind9-host dnsutils webmin
+#      bind9=1:${BIND_VERSION}* bind9-host=1:${BIND_VERSION}* dnsutils \
+#      webmin=${WEBMIN_VERSION}* \
  && rm -rf /var/lib/apt/lists/*
 
 COPY entrypoint.sh /sbin/entrypoint.sh
