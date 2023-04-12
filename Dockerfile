@@ -2,7 +2,8 @@ FROM ubuntu:latest AS add-apt-repositories
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y gnupg \
- && apt-key adv --fetch-keys http://www.webmin.com/jcameron-key.asc \
+ && wget -q -O- http://www.webmin.com/jcameron-key.asc | apt-key add \
+ #&& apt-key adv --fetch-keys http://www.webmin.com/jcameron-key.asc \
  && echo "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
 
 FROM ubuntu:latest
@@ -14,9 +15,9 @@ ENV BIND_USER=bind \
     WEBMIN_VERSION=1.941 \
     DATA_DIR=/data
 
-COPY --from=add-apt-repositories /etc/apt/trusted.gpg /etc/apt/trusted.gpg
+#COPY --from=add-apt-repositories /etc/apt/trusted.gpg /etc/apt/trusted.gpg
 
-COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list
+#COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list
 
 RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
  && apt-get update \
